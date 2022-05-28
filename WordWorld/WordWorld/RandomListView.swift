@@ -15,6 +15,7 @@ struct RandomListView: View {
             TextField("Enter number 1-15", value: $wordLoader.count, format: .number)
                 .padding()
                 .onSubmit {
+                    // 단어 갯수를 입력(변경)했을 때 loadData() call
                     Task {
                         await loadData()
                     }
@@ -37,6 +38,7 @@ struct RandomListView: View {
         
     }
     
+    // URL Data를 읽어오는 함수 - 여기서는 JSONDecoder()를 사용하지 않을 것 같아 URLSession을 사용 X
     func loadData() async {
         // 1. 읽으려는 URL 생성
         // 입력받은 단어의 갯수에 따라 가져오는 단어의 갯수 변경
