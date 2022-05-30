@@ -9,7 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        MainView()
+        NavigationView {
+            MainView()
+            // RandomListView에서 자꾸 상단에 space가 생기는 현상이 있었음
+                .navigationTitle("Home")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarHidden(true)
+        }
     }
 }
 

@@ -13,6 +13,6 @@ struct Words {
 
 class WordLoader : ObservableObject {
     @Published var words = [String]()
-    @Published var count : Int? = nil
+    //@Published var count : Int? = nil
 }
 

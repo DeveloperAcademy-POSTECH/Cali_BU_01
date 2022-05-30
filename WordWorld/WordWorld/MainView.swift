@@ -12,43 +12,48 @@
 import SwiftUI
 
 struct MainView: View {
-    // State로 하니까 뷰가 생성될 때 마다 계속해서 초기화됨
+    // State로 하니까 뷰가 생성될 때 마다 랜덤 단어들이 계속해서 초기화됨
     // Source of Truth를 상위 View에서 StateObject로 선언
-    @StateObject var wordLoader = WordLoader()
+    //@StateObject var wordLoader = WordLoader()
+    @State private var wordCount : Int? = nil
     @State private var alertValid: Bool = false
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("단어의 갯수를 입력하세요")
-                    .font(.title)
-                
-                // 단어의 갯수를 TextField활용해 입력받음
-                TextField("Enter number 1-15", value: $wordLoader.count, format: .number)
-                    .frame(width: 200, alignment: .center)
-                    .padding()
-                    .onSubmit {
-                        // 단어의 갯수 입력이 제대로 되어있는지 확인
-                        alertValid = checkCountInvalid()
-                    }
-                    .alert(isPresented: $alertValid) {
-                        // 잘못된 값이 들어간다면 Alert
-                        Alert(title: Text("Invalid input number!"), message: Text("Plese write 1-15"))
-                    }
-                
-                NavigationLink(destination: RandomListView(wordLoader: wordLoader)) {
-                Text("GoGo")
+        VStack {
+            Text("단어의 갯수를 입력하세요")
+                .font(.title)
+            
+            // 단어의 갯수를 TextField활용해 입력받음
+            TextField("Enter number 1-15", value: $wordCount, format: .number)
+                .frame(width: 200, alignment: .center)
+                .textFieldStyle(.roundedBorder)
+                .padding()
+                .onSubmit {
+                    //wordCount = wordLoader.words.count
+                    // 단어의 갯수 입력이 제대로 되어있는지 확인
+                    alertValid = checkCountInvalid()
+                }
+                .alert(isPresented: $alertValid) {
+                    // 잘못된 값이 들어간다면 Alert
+                    Alert(title: Text("Invalid input number!"), message: Text("Plese write 1-15"))
+                }
+            
+            Button(action: {
+            }) {
+                NavigationLink(destination: RandomListView(wordCount: $wordCount)) {
+                    Text("Submit")
+                }
             }
-        }
         }
     }
     
     // 단어의 갯수를 설정할 때 1이상 15이하가 아닐 경우 true 반환 (Invalid)
     func checkCountInvalid() -> Bool {
-        if let count = wordLoader.count {
+        // wordCount가 optional이라서 optional binding 처리
+        if let count = wordCount {
             if count < 1 || count > 15 {
                 // 잘못된 값이 들어올 경우 입력값 초기화
-                wordLoader.count = nil
+                wordCount = nil
                 return true
             }
         }
@@ -56,23 +61,4 @@ struct MainView: View {
     }
 }
 
-// string으로 된 배열을 분리해서 각 element를 String 배열에 담음
-// 이건 무슨 방법인가요...
-func stringToArray(input: String) -> Array<String> {
-    var inputString = input
-    let stringArray : Array<String>
-    
-    inputString.removeLast()
-    inputString.removeLast()
-    inputString.removeFirst()
-    inputString.removeFirst()
-    stringArray = inputString.components(separatedBy: "\",\"")
-    
-    return stringArray
-}
 
-//struct MainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainView()
-//    }
-//}
