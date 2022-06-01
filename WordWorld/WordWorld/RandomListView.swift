@@ -14,6 +14,7 @@ struct RandomListView: View {
     @Binding var wordCount: Int?
     
     // Picker를 사용하려고 만든 Source of Truth...
+    // Picker의 selection에 Binding을 넘겨주니까 잘 안됨
     @State private var count = 0
 
     var body: some View {
