@@ -33,17 +33,23 @@ struct MainView: View {
                     // 단어의 갯수 입력이 제대로 되어있는지 확인
                     alertValid = checkCountInvalid()
                 }
-                .alert(isPresented: $alertValid) {
-                    // 잘못된 값이 들어간다면 Alert
-                    Alert(title: Text("Invalid input number!"), message: Text("Plese write 1-15"))
-                }
             
-            Button(action: {
-            }) {
-                NavigationLink(destination: RandomListView(wordCount: $wordCount)) {
-                    Text("Submit")
-                }
+            NavigationLink(destination: RandomListView(wordCount: $wordCount)) {
+                Text("Generate Words")
+                    .fontWeight(.bold)
+                    .font(.title)
+                    .foregroundColor(.gray)
+                    .padding()
+                    .overlay(
+                        Capsule(style: .continuous)
+                            .stroke(Color.gray, lineWidth: 5)
+                            
+                    )
             }
+        }
+        .alert(isPresented: $alertValid) {
+            // 잘못된 값이 들어간다면 Alert
+            Alert(title: Text("Invalid input number!"), message: Text("Please write 1-15"))
         }
     }
     
