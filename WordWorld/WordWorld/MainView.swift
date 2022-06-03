@@ -21,6 +21,13 @@ struct MainView: View {
     
     var body: some View {
         VStack {
+            Text("WordWorld")
+                .font(.custom("", size: 40))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(30)
+            
+            Spacer()
+            
             Text("단어의 갯수를 입력하세요")
                 .font(.title)
             
@@ -30,11 +37,8 @@ struct MainView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding()
                 .keyboardType(.numberPad)
-//                .onSubmit {
-//                    //wordCount = wordLoader.words.count
-//
-//                    alertValid = checkCountInvalid()
-//                }
+            
+            Spacer()
             
             NavigationLink(destination: RandomListView(wordCount: $wordCount), isActive: $navigationValid) {
                     // 처음에는 label을 만들었지만 사용에 불편한 점이 있어 제외

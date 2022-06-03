@@ -12,7 +12,7 @@ struct ContentView: View {
         NavigationView {
             MainView()
             // RandomListView에서 자꾸 상단에 space가 생기는 현상이 있었음
-                .navigationTitle("Home")
+                .navigationTitle("Main")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarHidden(true)
         }
