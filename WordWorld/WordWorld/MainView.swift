@@ -15,8 +15,9 @@ struct MainView: View {
     // State로 하니까 뷰가 생성될 때 마다 랜덤 단어들이 계속해서 초기화됨
     // Source of Truth를 상위 View에서 StateObject로 선언
     //@StateObject var wordLoader = WordLoader()
-    @State private var wordCount : Int? = nil
-    @State private var alertValid: Bool = false
+    @State private var wordCount : Int? = nil   // 단어의 갯수 SOT1
+    @State private var alertValid: Bool = false // Alert 여부 SOT2
+    @State private var navigationValid: Bool = false // Navigation Active SOT3
     
     var body: some View {
         VStack {
@@ -28,23 +29,26 @@ struct MainView: View {
                 .frame(width: 200, alignment: .center)
                 .textFieldStyle(.roundedBorder)
                 .padding()
-                .onSubmit {
-                    //wordCount = wordLoader.words.count
+                .keyboardType(.numberPad)
+//                .onSubmit {
+//                    //wordCount = wordLoader.words.count
+//
+//                    alertValid = checkCountInvalid()
+//                }
+            
+            NavigationLink(destination: RandomListView(wordCount: $wordCount), isActive: $navigationValid) {
+                    // 처음에는 label을 만들었지만 사용에 불편한 점이 있어 제외
+            }
+        }
+        .toolbar {
+            // numberPad에는 return 버튼이 없기때문에 추가해준 toolbar
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                
+                Button("Return") {
                     // 단어의 갯수 입력이 제대로 되어있는지 확인
                     alertValid = checkCountInvalid()
                 }
-            
-            NavigationLink(destination: RandomListView(wordCount: $wordCount)) {
-                Text("Generate Words")
-                    .fontWeight(.bold)
-                    .font(.title)
-                    .foregroundColor(.gray)
-                    .padding()
-                    .overlay(
-                        Capsule(style: .continuous)
-                            .stroke(Color.gray, lineWidth: 5)
-                            
-                    )
             }
         }
         .alert(isPresented: $alertValid) {
@@ -63,8 +67,7 @@ struct MainView: View {
                 return true
             }
         }
+        navigationValid.toggle()
         return false
     }
 }
-
-

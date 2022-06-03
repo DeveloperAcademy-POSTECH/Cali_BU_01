@@ -4,18 +4,15 @@
 //
 //  Created by DongKyu Kim on 2022/05/27.
 //
-// (05.23) Picker에서 selection을 optional 값으로 하니 선택이 되지 않았다 (unwrapping 방법?)
+// (05.27) Picker에서 selection을 optional 값으로 하니 선택이 되지 않았다 (unwrapping 방법?)
+// (06.02) Picker 내의 ForEach 항목에 .tag()를 통해 optional 처리가 가능하게 되었다.
 
 import SwiftUI
 
 struct RandomListView: View {
     // @ObservedObject var wordLoader: WordLoader = WordLoader()
-    @State private var wordArray = [String]()
+    @State private var wordArray = [String]() // 단어 배열을 담기 위한 SOT
     @Binding var wordCount: Int?
-    
-    // Picker를 사용하려고 만든 Source of Truth...
-    // Picker의 selection에 Binding을 넘겨주니까 잘 안됨
-    // @State private var count = 0
 
     var body: some View {
         // Picker를 활용하고싶은데 잘 안됨
@@ -61,17 +58,6 @@ struct RandomListView: View {
 //                    }
 //                }
 //        }
-
-// 이후 기능 추가?를 고려해서 WordLoader라는 ObservableObject를 활용했는데, 여기서는 @State만 해도 되긴 할 듯
-//            List(wordLoader.words, id: \.self) { item in
-//                VStack(alignment: .leading) {
-//                    Text(item)
-//                }
-//            }
-//            .task {
-//                // sleep이 일어나게 한다
-//                await loadData()
-//            }
         
         List(wordArray, id: \.self) { item in
             VStack(alignment: .leading) {
@@ -85,7 +71,7 @@ struct RandomListView: View {
     func loadData() async {
         // 1. 읽으려는 URL 생성
         // 입력받은 단어의 갯수에 따라 가져오는 단어의 갯수 변경
-        // 단어 갯수가 optional이라서 default를 1로 주었음
+        // 단어 갯수가 optional이라서 default를 0으로 주었음
         guard let url = URL(string: "https://random-word-api.herokuapp.com/word?number=\(wordCount ?? 0)") else {
             print("Invalid URL")
             return
@@ -107,11 +93,4 @@ struct RandomListView: View {
         }
         
     }
-    
-    // Picker를 사용하려고 만든 Function
-//    func loadCount() {
-//        if let wordCountLoader = wordCount {
-//            count = wordCountLoader
-//        }
-//    }
 }
