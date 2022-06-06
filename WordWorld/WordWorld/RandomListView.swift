@@ -71,8 +71,9 @@ struct RandomListView: View {
 //                            .padding()
                         Text("현재 선택된 문자는 \(wordArray[index]) 입니다")
                             .padding()
-                        TextField("Type the word", text: $toModify)
+                        TextField("수정할 문자를 입력", text: $toModify)
                             .frame(width: 200, alignment: .center)
+                            .textFieldStyle(.roundedBorder)
                             // 키보드 입력시 자동 대문자 비활성화
                             .textInputAutocapitalization(.never)
                             .onSubmit {
