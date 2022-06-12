@@ -1,5 +1,5 @@
 //
-//  DataModel.swift
+//  WordModel.swift
 //  WordWorld
 //
 //  Created by DongKyu Kim on 2022/05/27.

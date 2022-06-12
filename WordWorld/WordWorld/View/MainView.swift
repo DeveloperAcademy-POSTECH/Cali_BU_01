@@ -38,6 +38,21 @@ struct MainView: View {
                 .padding()
                 .keyboardType(.numberPad)
             
+            Button {
+                // 단어의 갯수 입력이 제대로 되어있는지 확인
+                alertValid = checkCountInvalid()
+            } label: {
+                ZStack {
+                    Capsule()
+                        .frame(width: 150, height: 60)
+                        .foregroundColor(.gray)
+                    
+                    Text("제출하기")
+                        .font(.system(size: 25))
+                        .foregroundColor(.white)
+                }
+            }
+            
             Spacer()
             
             NavigationLink(destination: RandomListView(wordCount: $wordCount), isActive: $navigationValid) {
