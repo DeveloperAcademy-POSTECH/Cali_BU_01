@@ -15,6 +15,8 @@
 		B9E287DA28411D330002ADD3 /* RandomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E287D928411D330002ADD3 /* RandomListView.swift */; };
 		B9E287DC28411DC40002ADD3 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E287DB28411DC40002ADD3 /* WordModel.swift */; };
 		CC3FBD272851B1E20066F21F /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3FBD262851B1E20066F21F /* HistoryView.swift */; };
+		CCA20EFF2864058E00B07E07 /* MainView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA20EFE2864058E00B07E07 /* MainView2.swift */; };
+		CCA20F012864060800B07E07 /* RandomListView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA20F002864060800B07E07 /* RandomListView2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		B9E287D928411D330002ADD3 /* RandomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomListView.swift; sourceTree = "<group>"; };
 		B9E287DB28411DC40002ADD3 /* WordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordModel.swift; sourceTree = "<group>"; };
 		CC3FBD262851B1E20066F21F /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		CCA20EFE2864058E00B07E07 /* MainView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView2.swift; sourceTree = "<group>"; };
+		CCA20F002864060800B07E07 /* RandomListView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomListView2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 				B9E287D928411D330002ADD3 /* RandomListView.swift */,
 				B9E287CB28411C8E0002ADD3 /* ContentView.swift */,
 				CC3FBD262851B1E20066F21F /* HistoryView.swift */,
+				CCA20EFE2864058E00B07E07 /* MainView2.swift */,
+				CCA20F002864060800B07E07 /* RandomListView2.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -159,10 +165,12 @@
 			files = (
 				B9E287DC28411DC40002ADD3 /* WordModel.swift in Sources */,
 				CC3FBD272851B1E20066F21F /* HistoryView.swift in Sources */,
+				CCA20F012864060800B07E07 /* RandomListView2.swift in Sources */,
 				B9E287CC28411C8E0002ADD3 /* ContentView.swift in Sources */,
 				B9E287D828411CFB0002ADD3 /* MainView.swift in Sources */,
 				B9E287CA28411C8E0002ADD3 /* WordWorldApp.swift in Sources */,
 				B9E287DA28411D330002ADD3 /* RandomListView.swift in Sources */,
+				CCA20EFF2864058E00B07E07 /* MainView2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

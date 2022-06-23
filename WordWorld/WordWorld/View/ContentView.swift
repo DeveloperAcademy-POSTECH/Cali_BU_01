@@ -8,25 +8,34 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var wordLoader = WordLoader()
+    
     var body: some View {
-        NavigationView {
-            TabView {
-                MainView()
-                    .tabItem {
-                        Label("Main", systemImage: "textformat.abc.dottedunderline")
-                    }
-                // RandomListView에서 자꾸 상단에 space가 생기는 현상이 있었음
-                    .navigationTitle("Main")
-                
-                HistoryView()
-                    .tabItem {
-                        Label("History", systemImage: "text.book.closed")
-                    }
-                    .navigationTitle("History")
-            }
-            .navigationBarHidden(true)
+        
+//        TabView {
+//            MainView()
+//                .tabItem {
+//                    Label("Main", systemImage: "textformat.abc.dottedunderline")
+//                }
+//
+//            HistoryView()
+//                .tabItem {
+//                    Label("History", systemImage: "text.book.closed")
+//                }
+//        }
+        
+        TabView {
+            MainView2()
+                .tabItem {
+                    Label("Main", systemImage: "textformat.abc.dottedunderline")
+                }
+                .environmentObject(wordLoader)
             
-            
+            HistoryView()
+                .tabItem {
+                    Label("History", systemImage: "text.book.closed")
+                }
+                .environmentObject(wordLoader)
         }
     }
 }
