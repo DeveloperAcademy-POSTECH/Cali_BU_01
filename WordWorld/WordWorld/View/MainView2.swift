@@ -68,7 +68,7 @@ struct MainView2: View {
             }
             .alert(isPresented: $alertValid) {
                 // 잘못된 값이 들어간다면 Alert
-                Alert(title: Text("Invalid input number!"), message: Text("Please write 1-15"))
+                Alert(title: Text("유효하지 않은 입력값"), message: Text("1-15 범위의 숫자를 입력해 주세요"))
             }
             .navigationTitle("Main")
             .navigationBarHidden(true)

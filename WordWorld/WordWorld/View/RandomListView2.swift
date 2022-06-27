@@ -13,10 +13,11 @@ struct RandomListView2: View {
     @State private var selectedIndex: Int = 0 // 리스트에서 사용할 인덱스를 담는 SOT (리스트의 단어 선택 시 사용)
     @State private var showModifySheet: Bool = false // 단어 수정 Sheet 활성화 여부 결정 SOT
     @State private var showAddSheet: Bool = false // 단어 추가 Sheet 활성화 여부 결정 SOT
-    @State private var showActivityIndicator: Bool = true
+    @State private var showAlert: Bool = false // 단어 히스토리에 추가 알림 활성화 여부
+    @State private var showActivityIndicator: Bool = true // 로딩 화면 활성화 여부
     
-    @State private var selectedOption = "option"
-    let pickerOption = ["목록에 단어 추가", "히스토리 추가"]
+    // @State private var selectedOption = "option"
+    // let pickerOption = ["목록에 단어 추가", "히스토리 추가"]
     
     var body: some View {
         // Picker를 활용하고싶은데 잘 안됨
@@ -33,25 +34,17 @@ struct RandomListView2: View {
                 .frame(width: 200, height: 80)
                 .clipped()
                 .pickerStyle(.inline)
-                //            .onAppear(perform: {
-                //                // 처음 View를 보여줄 때 loadData() call
-                //                Task {
-                //                    await loadData()
-                //                    showActivityIndicator = false
-                //                }
-                //            })
                 .task {
-                    
                     await wordLoader.loadData()
                     showActivityIndicator = false
                 }
                 .onChange(of: wordLoader.content.wordCount) { _ in
                     // 단어 갯수를 입력(변경)했을 때 loadData() call
+                    showActivityIndicator = true
                     Task {
-                        showActivityIndicator = true
                         await wordLoader.loadData()
-                        showActivityIndicator = false
                     }
+                    showActivityIndicator = false
                 }
             }
             Spacer()
@@ -62,6 +55,7 @@ struct RandomListView2: View {
                     VStack(alignment: .leading) {
                         Button {
                             selectedIndex = index
+                            print(selectedIndex)
                             showModifySheet.toggle()
                         } label: {
                             Text(wordLoader.content.wordArray[index])
@@ -69,46 +63,7 @@ struct RandomListView2: View {
                         }
                         .sheet(isPresented: $showModifySheet)
                         {
-                            // 단어 수정을 위한 시트
-                            VStack {
-                                Button {
-                                    showModifySheet.toggle()
-                                } label: {
-                                    Image(systemName: "chevron.compact.down")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 15, alignment: .center)
-                                        .padding()
-                                        .foregroundColor(.gray)
-                                }
-                                
-                                Spacer()
-                                
-                                Text("단어 수정하기")
-                                    .font(.largeTitle)
-                                    .padding()
-                                
-                                
-                                // 여기서 selectedIndex를 하면 왜 0번 index가 나올까? (print는 정상적으로 작동)
-                                // Text("현재 선택된 문자는 \(wordArray[selectedIndex]) 입니다")
-                                //  .padding()
-                                Text("현재 선택된 단어는 \(wordLoader.content.wordArray[index]) 입니다")
-                                    .padding()
-                                TextField("수정할 문자를 입력", text: $toModify)
-                                    .frame(width: 200, alignment: .center)
-                                    .textFieldStyle(.roundedBorder)
-                                // 키보드 입력시 자동 대문자 비활성화
-                                    .textInputAutocapitalization(.never)
-                                    .onSubmit {
-                                        wordLoader.content.wordArray[selectedIndex] = toModify
-                                        showModifySheet.toggle()
-                                        // Text Field 비우기
-                                        toModify = ""
-                                    }
-                                
-                                Spacer()
-                                Spacer()
-                            }
+                            WordModifySheet
                         }
                     }
                 }
@@ -123,6 +78,7 @@ struct RandomListView2: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
+                    // 리스트에 단어 추가하기 버튼
                     Button {
                         showAddSheet.toggle()
                         
@@ -134,12 +90,17 @@ struct RandomListView2: View {
                         WordAddSheet
                     }
                     
+                    // 히스토리에 추가하기 버튼
                     Button {
                         wordLoader.makeHistory(wordCount: wordLoader.content.wordCount ?? 0, wordArray: wordLoader.content.wordArray)
-                        
+                        showAlert = true
                     } label: {
-                        Text("히스토리에 단어 추가")
+                        Image(systemName: "bookmark.circle")
                     }
+                    .alert("히스토리에 추가되었습니다!", isPresented: $showAlert) {
+                        Button("확인", role: .cancel)
+                            { }
+                        }
                 }
             }
         }
@@ -179,6 +140,51 @@ struct RandomListView2: View {
                     
                     // Text Field 비우기
                     toModify = ""
+                }
+            
+            Spacer()
+            Spacer()
+        }
+    }
+    
+    private var WordModifySheet: some View {
+        // 단어 수정을 위한 시트
+        VStack {
+            Button {
+                showModifySheet.toggle()
+            } label: {
+                Image(systemName: "chevron.compact.down")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 15, alignment: .center)
+                    .padding()
+                    .foregroundColor(.gray)
+            }
+            
+            Spacer()
+            
+            Text("단어 수정하기")
+                .font(.largeTitle)
+                .padding()
+            
+            
+            // 여기서 selectedIndex를 하면 왜 0번 index가 나올까? (print는 정상적으로 작동)
+            // Text("현재 선택된 문자는 \(wordArray[selectedIndex]) 입니다")
+            Text("현재 선택된 단어는 \(wordLoader.content.wordArray[selectedIndex]) 입니다")
+                .padding()
+            TextField("수정할 문자를 입력", text: $toModify)
+                .frame(width: 200, alignment: .center)
+                .textFieldStyle(.roundedBorder)
+            // 키보드 입력시 자동 대문자 비활성화
+                .textInputAutocapitalization(.never)
+                .onSubmit {
+                    wordLoader.content.wordArray[selectedIndex] = toModify
+                    showModifySheet.toggle()
+                    // Text Field 비우기
+                    toModify = ""
+                }
+                .onDisappear {
+                    selectedIndex = 0
                 }
             
             Spacer()

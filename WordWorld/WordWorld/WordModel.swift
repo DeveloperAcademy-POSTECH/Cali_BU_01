@@ -29,8 +29,8 @@ struct WordsHistory : Hashable{
 //    }
 //}
 
-//
-class WordLoader : ObservableObject {
+// MainActor를 붙여야 Warning이 뜨지 않는 이유는?
+@MainActor class WordLoader : ObservableObject {
 //    @Published var wordArray: Array<String> = [String]()
 //    @Published var wordCount: Int? = nil
     @Published var content: WordsHistory
