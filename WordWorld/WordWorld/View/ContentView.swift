@@ -12,20 +12,8 @@ struct ContentView: View {
     
     var body: some View {
         
-//        TabView {
-//            MainView()
-//                .tabItem {
-//                    Label("Main", systemImage: "textformat.abc.dottedunderline")
-//                }
-//
-//            HistoryView()
-//                .tabItem {
-//                    Label("History", systemImage: "text.book.closed")
-//                }
-//        }
-        
         TabView {
-            MainView2()
+            MainView()
                 .tabItem {
                     Label("Main", systemImage: "textformat.abc.dottedunderline")
                 }

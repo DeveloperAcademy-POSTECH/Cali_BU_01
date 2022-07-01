@@ -1,3 +1,4 @@
+
 //
 //  WordModel.swift
 //  WordWorld
@@ -8,13 +9,13 @@
 import Foundation
 
 // 단어 배열을 가지는 struct
-struct WordsHistory : Hashable{
+struct WordsHistory : Hashable {
     var wordCount : Int?
     var wordArray : [String]
 }
 
 //class wordArraySaver : ObservableObject {
-//    var content: WordsHistory
+//    @Published var content: WordsHistory
 //    @Published var history: Array<WordsHistory>
 //
 //    init() {
@@ -30,16 +31,16 @@ struct WordsHistory : Hashable{
 //}
 
 // MainActor를 붙여야 Warning이 뜨지 않는 이유는?
-@MainActor class WordLoader : ObservableObject {
-//    @Published var wordArray: Array<String> = [String]()
-//    @Published var wordCount: Int? = nil
-    @Published var content: WordsHistory
-    @Published var history: Array<WordsHistory>
+class WordLoader : ObservableObject {
+    //    @Published var wordArray: Array<String> = [String]()
+    //    @Published var wordCount: Int? = nil
+    @Published var content: WordsHistory = WordsHistory(wordArray: [])
+    @Published var history: Array<WordsHistory> = []
     //@Published var count : Int? = nil
     
     init() {
-        self.content = WordsHistory(wordCount: nil, wordArray: [])
-        self.history = []
+        //        self.content = WordsHistory(wordCount: nil, wordArray: [])
+        //        self.history = []
     }
     
     // URL Data를 읽어오는 함수
@@ -68,9 +69,8 @@ struct WordsHistory : Hashable{
         }
     }
     
-    func makeHistory(wordCount: Int, wordArray: [String]) {
-        self.content.wordCount = wordCount
-        self.content.wordArray = wordArray
+    
+    func makeHistory() {
         self.history.insert(content, at: 0) // 최근에 추가한게 위에 오도록 insert 활용
     }
     
