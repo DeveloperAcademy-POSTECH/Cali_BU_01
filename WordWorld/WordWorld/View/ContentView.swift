@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var wordLoader = WordLoader()
+    
     
     var body: some View {
         
@@ -17,13 +17,11 @@ struct ContentView: View {
                 .tabItem {
                     Label("Main", systemImage: "textformat.abc.dottedunderline")
                 }
-                .environmentObject(wordLoader)
             
-            HistoryView()
-                .tabItem {
-                    Label("History", systemImage: "text.book.closed")
-                }
-                .environmentObject(wordLoader)
+            //            HistoryView()
+            //                .tabItem {
+            //                    Label("History", systemImage: "text.book.closed")
+            //                }
         }
     }
 }
