@@ -14,14 +14,12 @@ import SwiftUI
 struct RandomListView: View {
     @StateObject var wordLoader : WordLoader // Parent View에서 가져옴
     @State private var toModify: String = "" // 수정 / 추가할 단어를 임시로 저장할 SOT
-    @State private var selectedIndex: Int = 0 // 리스트에서 사용할 인덱스를 담는 SOT (리스트의 단어 선택 시 사용)
+    @State private var selectedIndex: Int = 0  // 리스트에서 사용할 인덱스를 담는 SOT (리스트의 단어 선택 시 사용)
+    
     @State private var showModifySheet: Bool = false // 단어 수정 Sheet 활성화 여부 결정 SOT
     @State private var showAddSheet: Bool = false // 단어 추가 Sheet 활성화 여부 결정 SOT
     @State private var showAlert: Bool = false // 단어 히스토리에 추가 알림 활성화 여부
     @State private var showActivityIndicator: Bool = true // 로딩 화면 활성화 여부
-    
-    // @State private var selectedOption = "option"
-    // let pickerOption = ["목록에 단어 추가", "히스토리 추가"]
     
     var body: some View {
         // Picker를 활용하고싶은데 잘 안됨
@@ -77,7 +75,8 @@ struct RandomListView: View {
             
         }
         .sheet(isPresented: $showModifySheet) {
-            WordModifySheet
+            WordModifyView(showModifySheet: $showModifySheet, selectedIndex: $selectedIndex)
+                .environmentObject(wordLoader)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -146,54 +145,6 @@ struct RandomListView: View {
             Spacer()
         }
     }
-    
-    
-    // 단어 수정을 위한 시트
-    private var WordModifySheet: some View {
-        VStack {
-            Button {
-                showModifySheet.toggle()
-            } label: {
-                Image(systemName: "chevron.compact.down")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 15, alignment: .center)
-                    .padding()
-                    .foregroundColor(.gray)
-            }
-            
-            Spacer()
-            
-            Text("단어 수정하기")
-                .font(.largeTitle)
-                .padding()
-            
-            
-            // 여기서 selectedIndex를 하면 왜 0번 index가 나올까? (print는 정상적으로 작동)
-            // Text("현재 선택된 문자는 \(wordArray[selectedIndex]) 입니다")
-            Text("수정할 단어를 입력하세요")
-                .onAppear {
-                    print(selectedIndex)
-                }
-                .padding()
-            
-            TextField("\(wordLoader.content.wordArray[selectedIndex])", text: $toModify)
-                .frame(width: 200, alignment: .center)
-                .textFieldStyle(.roundedBorder)
-                // 키보드 입력시 자동 대문자 비활성화
-                .textInputAutocapitalization(.never)
-                .onSubmit {
-                    wordLoader.content.wordArray[selectedIndex] = toModify
-                    showModifySheet.toggle()
-                    // Text Field 비우기
-                    toModify = ""
-                }
-                .onDisappear {
-                    selectedIndex = 0
-                }
-            Spacer()
-            Spacer()
-        }
-    }
-    
 }
+
+

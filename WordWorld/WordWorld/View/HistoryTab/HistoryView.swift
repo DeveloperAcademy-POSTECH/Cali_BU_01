@@ -32,12 +32,7 @@ struct HistoryView: View {
                         }
                     }
                 }
-                
             }
         }
-        .onAppear {
-            print(wordLoader.history)
-        }
-        
     }
 }
