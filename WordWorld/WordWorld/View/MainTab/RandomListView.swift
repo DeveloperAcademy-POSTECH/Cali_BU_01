@@ -12,14 +12,14 @@
 import SwiftUI
 
 struct RandomListView: View {
-    @StateObject var wordLoader : WordLoader // Parent View에서 가져옴
-    @State private var toModify: String = "" // 수정 / 추가할 단어를 임시로 저장할 SOT
-    @State private var selectedIndex: Int = 0  // 리스트에서 사용할 인덱스를 담는 SOT (리스트의 단어 선택 시 사용)
+    @ObservedObject var wordLoader : WordViewModel // Parent View에서 가져옴
+    @EnvironmentObject var historyVM : HistoryViewModel
     
     @State private var showModifySheet: Bool = false // 단어 수정 Sheet 활성화 여부 결정 SOT
     @State private var showAddSheet: Bool = false // 단어 추가 Sheet 활성화 여부 결정 SOT
     @State private var showAlert: Bool = false // 단어 히스토리에 추가 알림 활성화 여부
-    @State private var showActivityIndicator: Bool = true // 로딩 화면 활성화 여부
+    
+    @Binding var showActivityIndicator: Bool // 로딩 화면 활성화 여부
     
     var body: some View {
         // Picker를 활용하고싶은데 잘 안됨
@@ -27,7 +27,7 @@ struct RandomListView: View {
             Section {
                 Text("단어의 갯수를 선택하세요")
                     .font(.headline)
-                Picker("확인할 단어 갯수", selection: $wordLoader.content.wordCount) {
+                Picker("확인할 단어 갯수", selection: $wordLoader.count) {
                     ForEach(1...15, id:\.self) { counter in
                         // Picker에서 selection이 optional일 때 다음과 같이 tag를 활용해 binding을 걸어줄 수 있음
                         Text("\(counter)").tag(counter as Int?)
@@ -36,10 +36,7 @@ struct RandomListView: View {
                 .frame(width: 200, height: 80)
                 .clipped()
                 .pickerStyle(.inline)
-                .task {
-                    showActivityIndicator = false
-                }
-                .onChange(of: wordLoader.content.wordCount) { _ in
+                .onChange(of: wordLoader.count) { _ in
                     // 단어 갯수를 입력(변경)했을 때 loadData() call
                     Task {
                         showActivityIndicator = true
@@ -52,13 +49,13 @@ struct RandomListView: View {
             Divider()
             
             ZStack {
-                List(wordLoader.content.wordArray.indices, id: \.self) { index in
+                List(wordLoader.words.indices, id: \.self) { index in
                     VStack(alignment: .leading) {
                         Button {
-                            selectedIndex = index
+                            wordLoader.selectedIndex = index
                             showModifySheet.toggle()
                         } label: {
-                            Text(wordLoader.content.wordArray[index])
+                            Text(wordLoader.words[index])
                                 .foregroundColor(.black)
                         }
                         
@@ -75,7 +72,7 @@ struct RandomListView: View {
             
         }
         .sheet(isPresented: $showModifySheet) {
-            WordModifyView(showModifySheet: $showModifySheet, selectedIndex: $selectedIndex)
+            WordModifyView(showModifySheet: $showModifySheet)
                 .environmentObject(wordLoader)
         }
         .toolbar {
@@ -93,7 +90,8 @@ struct RandomListView: View {
                     
                     // 히스토리에 추가하기 버튼
                     Button {
-                        wordLoader.makeHistory()
+                        historyVM.getWords(words: wordLoader.words, count: wordLoader.words.count)
+                        historyVM.makeHistory()
                         showAlert = true
                     } label: {
                         Image(systemName: "bookmark.circle")
@@ -105,7 +103,6 @@ struct RandomListView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        
     }
     
     
@@ -129,16 +126,16 @@ struct RandomListView: View {
                 .font(.largeTitle)
                 .padding()
             
-            TextField("추가할 문자를 입력", text: $toModify)
+            TextField("추가할 문자를 입력", text: $wordLoader.toModify)
                 .frame(width: 200, alignment: .center)
                 .textFieldStyle(.roundedBorder)
                 .textInputAutocapitalization(.never)
                 .onSubmit {
-                    wordLoader.content.wordArray.append(toModify)
+                    wordLoader.words.append(wordLoader.toModify)
                     showAddSheet.toggle()
                     
                     // Text Field 비우기
-                    toModify = ""
+                    wordLoader.toModify = ""
                 }
             
             Spacer()

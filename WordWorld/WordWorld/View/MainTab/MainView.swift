@@ -14,9 +14,11 @@ import SwiftUI
 struct MainView: View {
     // State로 하니까 뷰가 생성될 때 마다 랜덤 단어들이 계속해서 초기화됨
     // Source of Truth를 상위 View에서 StateObject로 선언
-    @EnvironmentObject var wordLoader: WordLoader // WordModel에 SOT 있음
+    @EnvironmentObject var wordLoader: WordViewModel // WordModel에 SOT 있음
+    
     @State private var alertValid: Bool = false // Alert 여부 SOT2
     @State private var navigationValid: Bool = false // Navigation Active SOT3
+    @State private var showActivityIndicator: Bool = true // 로딩 화면 활성화 여부
     
     var body: some View {
         NavigationView {
@@ -32,7 +34,7 @@ struct MainView: View {
                     .font(.title)
                 
                 // 단어의 갯수를 TextField활용해 입력받음
-                TextField("Enter number 1-15", value: $wordLoader.content.wordCount, format: .number)
+                TextField("Enter number 1-15", value: $wordLoader.count, format: .number)
                     .frame(width: 200, alignment: .center)
                     .textFieldStyle(.roundedBorder)
                     .padding()
@@ -40,9 +42,12 @@ struct MainView: View {
                 
                 Button {
                     // 단어의 갯수 입력이 제대로 되어있는지 확인
-                    alertValid = checkCountInvalid()
+                    alertValid = wordLoader.checkCountInvalid()
                     Task {
+                        navigationValid.toggle()
+                        showActivityIndicator = true
                         await wordLoader.loadData()
+                        showActivityIndicator = false
                     }
                 } label: {
                     ZStack {
@@ -58,7 +63,7 @@ struct MainView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: RandomListView(wordLoader: wordLoader), isActive: $navigationValid) {
+                NavigationLink(destination: RandomListView(wordLoader: wordLoader, showActivityIndicator: $showActivityIndicator), isActive: $navigationValid) {
                     // 처음에는 label을 만들었지만 사용에 불편한 점이 있어 제외
                 }
             }
@@ -69,24 +74,6 @@ struct MainView: View {
             .navigationTitle("Main")
             .navigationBarHidden(true)
         }
-    }
-    
-    
-    // 단어의 갯수를 설정할 때 1이상 15이하가 아닐 경우 true 반환 (Invalid)
-    func checkCountInvalid() -> Bool {
-        // wordCount가 optional이라서 optional binding 처리
-        if let count = wordLoader.content.wordCount {
-            if count < 1 || count > 15 {
-                // 잘못된 값이 들어올 경우 입력값 초기화
-                wordLoader.content.wordCount = nil
-                return true
-            }
-        } else {
-            // optional일 때 alert 띄우기
-            return true
-        }
-        navigationValid.toggle()
-        return false
     }
 }
 

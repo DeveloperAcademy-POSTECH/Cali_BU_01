@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct HistoryView: View {
-    @EnvironmentObject var wordLoader : WordLoader
+    @EnvironmentObject var historyVM : HistoryViewModel
+    
+    @State private var historyEmpty: Bool = true
     
     var body: some View {
         VStack {
@@ -17,18 +19,23 @@ struct HistoryView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(30)
             
-            List(wordLoader.history, id: \.self) { histories in
-                Section {
-                    Text("\(histories.wordCount ?? 0) words")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.horizontal)
-                    
-                    VStack(alignment: .center) {
-                        ForEach(histories.wordArray, id:\.self) { history in
-                            Text("\(history)")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.horizontal)
+            if historyVM.histories.isEmpty {
+                Text("히스토리를 추가해주세요!")
+                    .foregroundColor(.black)
+            } else {
+                List(historyVM.histories, id: \.self) { histories in
+                    Section {
+                        Text("\(histories.wordCount ?? 0) words")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.horizontal)
+                        
+                        VStack(alignment: .center) {
+                            ForEach(histories.wordArray, id:\.self) { history in
+                                Text("\(history)")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.horizontal)
+                            }
                         }
                     }
                 }

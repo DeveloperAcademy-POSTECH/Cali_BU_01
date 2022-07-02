@@ -13,18 +13,21 @@ struct WordsHistory : Hashable {
     var wordArray : [String]
 }
 
-//class wordArraySaver : ObservableObject {
-//    @Published var content: WordsHistory
-//    @Published var history: Array<WordsHistory>
-//
-//    init() {
-//        self.content = WordsHistory(wordCount: 0, wordArray: [])
-//        self.history = []
-//    }
-//
-//    func makeHistory(wordCount: Int, wordArray: [String]) {
-//        self.content.wordCount = wordCount
-//        self.content.wordArray = wordArray
-//        self.history.append(content)
-//    }
-//}
+class HistoryViewModel : ObservableObject {
+    @Published var content: WordsHistory
+    @Published var histories: Array<WordsHistory>
+
+    init() {
+        self.content = WordsHistory(wordCount: 0, wordArray: [""])
+        self.histories = []
+    }
+
+    func makeHistory() {
+        histories.insert(content, at: 0)
+    }
+    
+    func getWords(words: Array<String>, count: Int) {
+        self.content.wordArray = words
+        self.content.wordCount = count
+    }
+}
