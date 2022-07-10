@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @StateObject var wordVM = WordViewModel()
+    @StateObject var historyVM = HistoryViewModel()
     
     var body: some View {
         
@@ -17,11 +18,14 @@ struct ContentView: View {
                 .tabItem {
                     Label("Main", systemImage: "textformat.abc.dottedunderline")
                 }
+                .environmentObject(wordVM)
+                .environmentObject(historyVM)
             
-            //            HistoryView()
-            //                .tabItem {
-            //                    Label("History", systemImage: "text.book.closed")
-            //                }
+            HistoryView()
+                .tabItem {
+                    Label("History", systemImage: "text.book.closed")
+                }
+                .environmentObject(historyVM)
         }
     }
 }

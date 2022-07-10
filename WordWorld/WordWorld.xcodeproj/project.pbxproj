@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B948BCD9286F0E68000ACCAA /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B948BCD8286F0E68000ACCAA /* HistoryView.swift */; };
+		B948BCDB286F0E9A000ACCAA /* WordModifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B948BCDA286F0E9A000ACCAA /* WordModifyView.swift */; };
+		B948BCDE286F1145000ACCAA /* HistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B948BCDD286F1145000ACCAA /* HistoryModel.swift */; };
 		B9E287CA28411C8E0002ADD3 /* WordWorldApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E287C928411C8E0002ADD3 /* WordWorldApp.swift */; };
 		B9E287CC28411C8E0002ADD3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E287CB28411C8E0002ADD3 /* ContentView.swift */; };
 		B9E287CE28411C8F0002ADD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9E287CD28411C8F0002ADD3 /* Assets.xcassets */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B948BCD8286F0E68000ACCAA /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		B948BCDA286F0E9A000ACCAA /* WordModifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordModifyView.swift; sourceTree = "<group>"; };
+		B948BCDD286F1145000ACCAA /* HistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModel.swift; sourceTree = "<group>"; };
 		B9E287C628411C8E0002ADD3 /* WordWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E287C928411C8E0002ADD3 /* WordWorldApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordWorldApp.swift; sourceTree = "<group>"; };
 		B9E287CB28411C8E0002ADD3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -38,6 +44,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B948BCDC286F1123000ACCAA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B9E287DB28411DC40002ADD3 /* WordModel.swift */,
+				B948BCDD286F1145000ACCAA /* HistoryModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B948BCDF286F1157000ACCAA /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				B9E287D728411CFB0002ADD3 /* MainView.swift */,
+				B9E287D928411D330002ADD3 /* RandomListView.swift */,
+				B948BCDA286F0E9A000ACCAA /* WordModifyView.swift */,
+			);
+			path = MainTab;
+			sourceTree = "<group>";
+		};
+		B948BCE0286F1162000ACCAA /* HistoryTab */ = {
+			isa = PBXGroup;
+			children = (
+				B948BCD8286F0E68000ACCAA /* HistoryView.swift */,
+			);
+			path = HistoryTab;
+			sourceTree = "<group>";
+		};
 		B9E287BD28411C8E0002ADD3 = {
 			isa = PBXGroup;
 			children = (
@@ -57,8 +90,8 @@
 		B9E287C828411C8E0002ADD3 /* WordWorld */ = {
 			isa = PBXGroup;
 			children = (
-				B9E287DB28411DC40002ADD3 /* WordModel.swift */,
 				B9E287C928411C8E0002ADD3 /* WordWorldApp.swift */,
+				B948BCDC286F1123000ACCAA /* Model */,
 				CC3FBD282851B1EE0066F21F /* View */,
 				B9E287CD28411C8F0002ADD3 /* Assets.xcassets */,
 				B9E287CF28411C8F0002ADD3 /* Preview Content */,
@@ -77,9 +110,9 @@
 		CC3FBD282851B1EE0066F21F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B9E287D728411CFB0002ADD3 /* MainView.swift */,
-				B9E287D928411D330002ADD3 /* RandomListView.swift */,
 				B9E287CB28411C8E0002ADD3 /* ContentView.swift */,
+				B948BCDF286F1157000ACCAA /* MainTab */,
+				B948BCE0286F1162000ACCAA /* HistoryTab */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -154,7 +187,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B948BCDE286F1145000ACCAA /* HistoryModel.swift in Sources */,
+				B948BCDB286F0E9A000ACCAA /* WordModifyView.swift in Sources */,
 				B9E287DC28411DC40002ADD3 /* WordModel.swift in Sources */,
+				B948BCD9286F0E68000ACCAA /* HistoryView.swift in Sources */,
 				B9E287CC28411C8E0002ADD3 /* ContentView.swift in Sources */,
 				B9E287D828411CFB0002ADD3 /* MainView.swift in Sources */,
 				B9E287CA28411C8E0002ADD3 /* WordWorldApp.swift in Sources */,
