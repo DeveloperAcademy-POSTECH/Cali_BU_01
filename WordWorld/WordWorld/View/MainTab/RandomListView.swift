@@ -85,7 +85,7 @@ struct RandomListView: View {
                         Image(systemName: "plus.circle")
                     }
                     .sheet(isPresented: $showAddSheet) {
-                        WordAddSheet
+                        wordAddSheet
                     }
                     
                     // 히스토리에 추가하기 버튼
@@ -107,7 +107,8 @@ struct RandomListView: View {
     
     
     // 단어 추가를 위한 시트
-    private var WordAddSheet: some View {
+    @ViewBuilder
+    private var wordAddSheet: some View {
         VStack {
             Button {
                 showAddSheet.toggle()

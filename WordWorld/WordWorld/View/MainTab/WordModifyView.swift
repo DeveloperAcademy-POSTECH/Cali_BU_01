@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct WordModifyView: View {
-    @EnvironmentObject var wordLoader : WordViewModel // Parent View에서 가져옴
+    @EnvironmentObject var wordVM : WordViewModel // Parent View에서 가져옴
     @Binding var showModifySheet: Bool // 단어 수정 Sheet 활성화 여부 결정 SOT
     
     var body: some View {
@@ -34,22 +34,22 @@ struct WordModifyView: View {
 
             Text("수정할 단어를 입력하세요")
                 .onAppear {
-                    print(wordLoader.selectedIndex)
+                    print(wordVM.selectedIndex)
                 }
                 .padding()
             
-            TextField("\(wordLoader.words[wordLoader.selectedIndex])", text: $wordLoader.toModify)
+            TextField("\(wordVM.words[wordVM.selectedIndex])", text: $wordVM.toModify)
                 .frame(width: 200, alignment: .center)
                 .textFieldStyle(.roundedBorder)
                 .textInputAutocapitalization(.never) // 키보드 입력시 자동 대문자 비활성화
                 .onSubmit {
-                    wordLoader.words[wordLoader.selectedIndex] = wordLoader.toModify
+                    wordVM.words[wordVM.selectedIndex] = wordVM.toModify
                     showModifySheet.toggle()
                     // Text Field 비우기
-                    wordLoader.toModify = ""
+                    wordVM.toModify = ""
                 }
                 .onDisappear {
-                    wordLoader.selectedIndex = 0
+                    wordVM.selectedIndex = 0
                 }
             Spacer()
             Spacer()

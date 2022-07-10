@@ -12,14 +12,15 @@ import Foundation
 // MainActor를 붙여야 Warning이 뜨지 않는 이유는?
 @MainActor class WordViewModel : ObservableObject {
     //@Published var wordArray: Array<String?>
-    @Published var words: Array<String> = []
+    @Published var words: [String] = []
     @Published var count: Int?
     
     @Published var selectedIndex: Int = 0
     @Published var toModify: String = ""
     
-    @Published var wordGroup: WordsHistory
-    //@Published var count : Int? = nil
+    private var wordGroup: WordsHistory
+
+    
     
     init() {
         self.wordGroup = WordsHistory(wordCount: nil, wordArray: [])
